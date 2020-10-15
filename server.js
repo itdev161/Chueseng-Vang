@@ -3,7 +3,10 @@ import connectDatabase from './config/db';
 import { check, validationResult } from 'express-validator';
 import cors from 'cors';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import config from 'config';
 import User from './models/User';
+
 
 
 //Initialize express application
@@ -46,7 +49,7 @@ app.use(
           'Please enter a password with 6 or more characters')
         .isLength({ min: 6})
    ], 
-  async (req, res) => {
+  async (req, res) => {     //call back method
       const errors = validationResult(req);
       if(!errors.isEmpty()){
           return res.status(422).json({ errors: errors.array() });
@@ -74,7 +77,23 @@ app.use(
 
             //save user to database
             await user.save();
-            res.send('User successfully registered');
+            
+            //Generate and return a JWT token
+            const payload = {
+              user: {
+                id: user.id
+              }
+            };
+
+            jwt.sign(
+              payload,
+              config.get('jwtSecret'),
+              { expiresIn: '10hr' },
+              (err, token) => {
+                if (err) throw err;
+                res.json({ token: token });
+              }
+            )
           } catch (error) {
             res.status(500).send('Server error');
           }
