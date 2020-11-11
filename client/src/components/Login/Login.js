@@ -18,8 +18,8 @@ const Login = ({ authenticateUser }) => {
     setUserData({
       ...userData,
       [name]: value
-    })
-  }
+    }) 
+  } 
 
   const loginUser = async () => {
     const newUser = {
