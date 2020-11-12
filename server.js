@@ -97,10 +97,7 @@ app.use(
           } catch (error) {
             res.status(500).send('Server error');
           }
-          //return res.send(req.body);
       }
-    //console.log(req.body);
-    //res.send(req.body);
   }
 );
 /**
