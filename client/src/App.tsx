@@ -98,7 +98,7 @@ class App extends React.Component {
     this.setState({ user: null, token: null });
   }
 
-  deletePost = post => {              ///stopped on page 19, couldn't get to delete to work
+  deletePost = post => {              ///stopped on page 19, couldn't get the delete to work
     const { token } = this.state;
 
     if (token) {
